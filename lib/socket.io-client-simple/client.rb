@@ -32,7 +32,9 @@ module SocketIO
                     @last_ping_at = Time.now.to_i
                   end
                 end
-                if @websocket.open? and Time.now.to_i - @last_pong_at > @ping_timeout/1000
+                if @websocket.open? and
+                    @last_pong_at and
+                    Time.now.to_i - @last_pong_at > @ping_timeout/1000
                   @websocket.close
                   @state = :disconnect
                   __emit :disconnect
